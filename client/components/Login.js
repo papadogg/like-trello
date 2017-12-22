@@ -33,13 +33,29 @@ class Login extends Component {
   render() {
     const { email, password } = this.state;
     return(
-      <div>
-        <form onSubmit={this.submitHander}>
-          <input type="text" name="email" value={email} onChange={this.changeHandler} />
-          <input type="password" name="password" value={password} onChange={this.changeHandler} />
-          <button>Login</button>
-          <Link to="/signup">Need an account?</Link>
-          <p>{this.state.error}</p>
+      <div className="auth">
+        <form className="auth__form" onSubmit={this.submitHander}>
+          <h1 className="auth__title">Login</h1>
+          <input
+            className="auth__input"
+            autoComplete="off"
+            placeholder="Email"
+            type="text"
+            name="email"
+            value={email}
+            onChange={this.changeHandler}
+          />
+          <input
+            className="auth__input"
+            placeholder="Password"
+            type="password"
+            name="password"
+            value={password}
+            onChange={this.changeHandler}
+          />
+          <p className="auth__error">{this.state.error}</p>
+          <button className="auth__btn">Login</button>
+          <Link className="auth__link" to="/signup">Need an account?</Link>
         </form>
       </div>
     );

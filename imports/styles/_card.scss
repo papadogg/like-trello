@@ -1,0 +1,55 @@
+.card {
+  font-size: 1.6rem;
+  position: relative;
+  cursor: pointer;
+  .fa {
+    display: none;
+    position: absolute;
+    right: 0;
+    margin: 5px;
+    &:hover {
+      font-size: 1.7rem;
+      color: gray;
+    }
+  }
+  .edit-btn {
+    top: 5px;
+  }
+  .delete-btn {
+    top: 25px;
+    margin-right: 8px;
+  }
+}
+
+.card:hover {
+  .fa {
+    display: block;
+  }
+}
+
+.card__form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  textarea {
+    resize: none;
+    outline: none;
+    border: 1px solid lightgray;
+    height: 60px;
+    padding: 5px;
+  }
+  button {
+    background: green;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    color: white;
+    width: 70px;
+    margin-top: 10px;
+    &:hover {
+      color: black;
+    }
+  }
+}

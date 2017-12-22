@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 import { Dashboards } from '../../imports/collections/dashboards';
 import CardList from './CardList';
+import NotFound from './NotFound';
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -74,7 +75,6 @@ class Dashboard extends Component {
       const draggableItem = this.state[sourceId].find(item => item.id === result.draggableId);
       const newSourceList = this.state[sourceId].filter(item => item.id !== result.draggableId);
       const destinationId = result.destination.droppableId;
-      draggableItem.status = destinationId;
       const draggableItemModified = {
         ...draggableItem,
         status: destinationId
@@ -129,12 +129,12 @@ class Dashboard extends Component {
   render() {
     const { dashboard, loading } = this.props;
     return (
-      <div>
+      <div className="dashboard">
         {dashboard &&
           <div>
-            <Link to='/'>View all dashboards</Link>
+            <h2 className="dashboard__title">{dashboard.name}</h2>
             <DragDropContext onDragEnd={this.onDragEnd}>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }} >
+              <div className="dashboard__wrapper">
                 <CardList
                   items={this.state.todo}
                   deleteCard={this.deleteCard}
@@ -158,13 +158,9 @@ class Dashboard extends Component {
                 />
               </div>
           </DragDropContext>
-          </div> }
-        { !dashboard && !loading && <div>
-          <p>Can not find anything</p>
-          <Link to='/'>Go home</Link>
-        </div>
-        }
-        { loading && <div>Loading...</div>}
+        </div> }
+        { !dashboard && !loading && <NotFound /> }
+        { !dashboard && loading && <div className="loader"><i className="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>}
       </div>
     );
   }

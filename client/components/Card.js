@@ -1,17 +1,11 @@
 import React, { Component } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 
-const grid = 8;
 const getItemStyle = (draggableStyle, isDragging) => ({
-  // some basic styles to make the items look a bit nicer
   userSelect: 'none',
-  padding: grid * 2,
-  margin: `0 0 ${grid}px 0`,
-
-  // change background colour if dragging
-  background: isDragging ? 'lightgreen' : 'grey',
-
-  // styles we need to apply on draggables
+  padding: 16,
+  margin: `0 0 8px 0`,
+  background: isDragging ? '#DDD' : '#f7f8fb',
   ...draggableStyle,
 });
 
@@ -19,6 +13,11 @@ class Card extends Component {
   state = {
     editing: false,
     content: this.props.item.content
+  }
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      content: nextProps.item.content
+    });
   }
   deleteItem = () => {
     const { item } = this.props;
@@ -49,7 +48,7 @@ class Card extends Component {
     return(
       <Draggable key={item.id} draggableId={item.id}>
         {(provided, snapshot) => (
-          <div>
+          <div className="card">
             <div
               ref={provided.innerRef}
               style={getItemStyle(
@@ -60,14 +59,17 @@ class Card extends Component {
             >
               {
                 editing ?
-                <div>
-                  <textarea rows="4" onChange={this.changeHandler} value={content}/>
+                <div className='card__form'>
+                  <textarea autoFocus onChange={this.changeHandler} value={content}/>
                   <button onClick={this.editItem}>Save</button>
                 </div> :
-                <p style={{ wordWrap: 'break-word' }}>{item.content}</p>
+                <div>
+                  <p style={{ wordWrap: 'break-word' }}>{content}</p>
+                  <i className="edit-btn fa fa-pencil-square-o" aria-hidden="true" onClick={this.showEditForm}></i>
+                  <i className="delete-btn fa fa-trash-o" onClick={this.deleteItem}
+                  aria-hidden="true"></i>
+                </div>
               }
-              <button onClick={this.showEditForm}>Edit</button>
-              <button onClick={this.deleteItem}>Delete</button>
             </div>
             {provided.placeholder}
           </div>

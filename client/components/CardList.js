@@ -3,17 +3,14 @@ import { Droppable } from 'react-beautiful-dnd';
 
 import Card from './Card';
 
-const grid = 8;
 const getListStyle = isDraggingOver => ({
-  background: isDraggingOver ? 'lightblue' : 'lightgrey',
-  padding: grid,
-  width: 250,
-  minHeight: 25
+  background: isDraggingOver && 'lightblue',
 });
 
 class CardList extends Component {
   state = {
-    content: ''
+    content: '',
+    show: false
   }
   changeHandler = (e) => {
     this.setState({
@@ -29,36 +26,54 @@ class CardList extends Component {
     const order = this.props.items.length;
     this.props.addCard({content, order}, this.props.listId);
     this.setState({
-      content: ''
+      content: '',
+      show: false
     });
+  }
+  showAddForm = () => {
+    this.setState({
+      content: '',
+      show: !this.state.show
+    }, () => {
+      this.scrollToBottom();
+    });
+  }
+  scrollToBottom = () => {
+    const {col} = this.refs;
+    if(col) {
+      col.scrollTop = col.scrollHeight - col.clientHeight;
+    }
   }
   render() {
     const { items, listId, deleteCard, editCard } = this.props;
+    const { content, show } = this.state;
     return(
-      <div>
-        <h4>{listId}</h4>
-        <div style={{ overflowY: 'auto', overflowX: 'hidden', maxHeight: '80vh' }}>
-          <Droppable droppableId={listId}>
-            {(provided, snapshot) => (
-              <div
-                ref={provided.innerRef}
-                style={getListStyle(snapshot.isDraggingOver)}
-              >
-                {items.map(item => <Card
-                   key={item.id}
-                   item={item}
-                   deleteCard={deleteCard}
-                   editCard={editCard}
-                   listId={listId} />)}
-                {provided.placeholder}
-                <form onSubmit={this.addCard}>
-                  <textarea value={this.state.content} onChange={this.changeHandler} />
-                  <button>Add</button>
-                </form>
-              </div>
-            )}
-          </Droppable>
-        </div>
+      <div ref="col" style={{ overflowY: 'auto', overflowX: 'hidden', maxHeight: '80vh' }}>
+        <Droppable droppableId={listId}>
+          {(provided, snapshot) => (
+            <div
+              className='card-list'
+              ref={provided.innerRef}
+              style={getListStyle(snapshot.isDraggingOver)}
+            >
+              <h4 className="card-list__title">{listId}</h4>
+              {items.map(item => <Card
+                 key={item.id}
+                 item={item}
+                 deleteCard={deleteCard}
+                 editCard={editCard}
+                 listId={listId} />)}
+              {provided.placeholder}
+              {show ? <form className="card-list__form" onSubmit={this.addCard}>
+                <textarea autoFocus value={content} onChange={this.changeHandler} />
+                <div className="card-list__form-footer">
+                  <button type="submit">Add</button>
+                  <i className="card-list__close-form-btn fa fa-times" aria-hidden="true" onClick={this.showAddForm}></i>
+                </div>
+              </form> : <button className="card-list__button--add-card" onClick={this.showAddForm}>Add a card...</button>}
+            </div>
+          )}
+        </Droppable>
       </div>
     );
   }

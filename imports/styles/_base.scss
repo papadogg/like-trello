@@ -1,0 +1,35 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+}
+
+#app {
+  background: lighten($blue, 10%);;
+  height: 100%;
+  min-width: 960px;
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 150px;
+  i {
+    font-size: 5rem;
+  }
+}
+
+.fa {
+  cursor: pointer;
+}

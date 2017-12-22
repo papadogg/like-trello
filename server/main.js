@@ -22,7 +22,7 @@ Meteor.startup(() => {
   });
 
   Meteor.publish('dashboards', function () {
-    return Dashboards.find({ userId: this.userId });
+    return Dashboards.find({ userId: this.userId }, { sort: { createdAt: 1 } });
   });
   Meteor.publish('singleDashboard', function (_id) {
     return Dashboards.find({ userId: this.userId, _id });
@@ -38,6 +38,16 @@ Meteor.startup(() => {
       }
       Dashboards.insert({
         name,
+        userId: this.userId,
+        createdAt: new Date().getTime()
+      });
+    },
+    'dashboard.delete'(_id) {
+      if (!this.userId) {
+        throw new Meteor.Error('not-authorized');
+      }
+      Dashboards.remove({
+        _id,
         userId: this.userId
       });
     },

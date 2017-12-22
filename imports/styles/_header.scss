@@ -1,0 +1,25 @@
+.header {
+  background: $blue;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10%;
+}
+
+.header__title {
+  font-size: 3rem;
+  padding: 1rem 0;
+  a {
+    text-decoration: none;
+    color: white;
+  }
+}
+
+.header__logout-btn {
+  background: none;
+  text-decoration: underline;
+  border: none;
+  cursor: pointer;
+  font-size: 1.6rem;  
+  color: white;
+
+}
