@@ -5,7 +5,7 @@ const getItemStyle = (draggableStyle, isDragging) => ({
   userSelect: 'none',
   padding: 16,
   margin: `0 0 8px 0`,
-  background: isDragging ? '#DDD' : '#f7f8fb',
+  background: isDragging ? '#DDD' : 'white',
   ...draggableStyle,
 });
 
